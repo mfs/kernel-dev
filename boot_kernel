@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# execute in the top level of a linux kernel tree to boot the kernel using qemu
+# useful for quickly testing kernels
+# expects an initramfs.gz in this directory
+# the -append, -nographic -noreboot options do two things:
+# 1. Disable SDL, console ouput appears directly in the terminal.
+# 2. If the kernel panics, exit qemu
+
+qemu-system-x86_64 -enable-kvm -kernel arch/x86/boot/bzImage \
+                   -initrd initramfs.gz \
+		   -append "console=ttyS0 panic=1" \
+		   -nographic -no-reboot

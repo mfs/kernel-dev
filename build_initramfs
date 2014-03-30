@@ -1,0 +1,22 @@
+#!/bin/bash
+
+function usage {
+	echo "Usage: $0 <cpio_list>"
+	echo
+	echo "<cpio_list> contains a list of the files to include in the initrams."
+	echo "See the output of usr/gen_init_cpio for the format of this file."
+	echo
+	echo "Execute from the root of a linux.git tree."
+}
+
+if [ $# -ne 1 ]; then
+	usage
+	exit 1
+fi
+
+if [ ! -f $1 ]; then
+	echo "error: $1 not found."
+	exit 1
+fi
+
+usr/gen_init_cpio $1 | gzip > initramfs.gz
